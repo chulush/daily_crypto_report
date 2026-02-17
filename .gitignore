@@ -1,5 +1,0 @@
-.env
-venv/
-*.log
-price_alerts.json
-.github/workflows/
