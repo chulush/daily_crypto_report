@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 # 配置 - 用户填写
-GITHUB_TOKEN = "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"  # GitHub Personal Access Token
+GITHUB_TOKEN = "YOUR_TOKEN_HERE"  # GitHub Personal Access Token
 REPO_OWNER = "chulush"         # 你的GitHub用户名
 REPO_NAME = "daily_crypto_report"      # 仓库名
 
