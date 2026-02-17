@@ -5,56 +5,208 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>每日投资报告</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
-        h1 { color: #333; }
-        .card { background: #f8f9fa; padding: 20px; margin: 10px 0; border-radius: 8px; }
-        .price { font-size: 24px; font-weight: bold; }
-        .positive { color: green; }
-        .negative { color: red; }
+        /* 默认亮色模式 */
+        :root {
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --secondary-text: #666666;
+            --border-color: #dddddd;
+            --link-color: #0066cc;
+        }
+        
+        /* 暗色模式 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --card-bg: #2d2d2d;
+                --text-color: #e0e0e0;
+                --secondary-text: #aaaaaa;
+                --border-color: #444444;
+                --link-color: #4da6ff;
+            }
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+        }
+        
+        h1 {
+            color: var(--text-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: var(--text-color);
+            margin: 20px 0 10px 0;
+        }
+        
+        .card {
+            background: var(--bg-color);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .positive {
+            color: #00aa55;
+        }
+        
+        .negative {
+            color: #ff4444;
+        }
+        
+        .loading {
+            color: var(--secondary-text);
+            font-size: 14px;
+        }
+        
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin: 10px 0;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--secondary-text);
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: var(--link-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>每日投资报告</h1>
+        <h1>📊 每日投资报告 <span class="badge">自动更新</span></h1>
+        
         <div class="card">
-            <h2>BTC Bitcoin</h2>
-            <div class="price" id="btc-price">Loading...</div>
+            <h2>₿ Bitcoin (BTC)</h2>
+            <div class="price" id="btc-price"><span class="loading">加载中...</span></div>
             <div id="btc-change"></div>
         </div>
+        
         <div class="card">
-            <h2>ETH Ethereum</h2>
-            <div class="price" id="eth-price">Loading...</div>
+            <h2>Ξ Ethereum (ETH)</h2>
+            <div class="price" id="eth-price"><span class="loading">加载中...</span></div>
             <div id="eth-change"></div>
         </div>
+        
         <div class="card">
-            <h2>纳斯达克 NASDAQ</h2>
-            <div class="price" id="nasdaq-price">Loading...</div>
+            <h2>📈 纳斯达克 (NASDAQ)</h2>
+            <div class="price" id="nasdaq-price"><span class="loading">加载中...</span></div>
+            <div id="nasdaq-change"></div>
         </div>
-        <h2>历史报告</h2>
+        
+        <h2>📋 历史报告</h2>
         <ul>
-            <li><a href="reports/report-2026-02-17.html">2026-02-17 投资报告</a></li>
+            <li><a href="reports/report-2026-02-17.html">2026年2月17日 投资报告</a></li>
         </ul>
+        
+        <div class="footer">
+            <p>🤖 由自动化系统生成 | 每天 8:00 自动更新</p>
+            <p>🔗 <a href="https://github.com/chulush/daily_crypto_report">GitHub 仓库</a></p>
+        </div>
     </div>
+    
     <script>
-    async function loadPrices() {
-        try {
-            let res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true');
-            let data = await res.json();
-            document.getElementById('btc-price').textContent = '\$' + data.bitcoin.usd.toLocaleString();
-            let btc = data.bitcoin.usd_24h_change;
-            document.getElementById('btc-change').textContent = (btc>=0?'+':'') + btc.toFixed(2) + '%';
-            document.getElementById('btc-change').className = btc>=0?'positive':'negative';
+        async function loadPrices() {
+            try {
+                // 加载加密货币价格
+                let res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true');
+                let data = await res.json();
+                
+                if (data.bitcoin) {
+                    document.getElementById('btc-price').textContent = '$' + data.bitcoin.usd.toLocaleString();
+                    let btc = data.bitcoin.usd_24h_change;
+                    document.getElementById('btc-change').textContent = (btc >= 0 ? '↑' : '↓') + Math.abs(btc).toFixed(2) + '%';
+                    document.getElementById('btc-change').className = btc >= 0 ? 'positive' : 'negative';
+                }
+                
+                if (data.ethereum) {
+                    document.getElementById('eth-price').textContent = '$' + data.ethereum.usd.toLocaleString();
+                    let eth = data.ethereum.usd_24h_change;
+                    document.getElementById('eth-change').textContent = (eth >= 0 ? '↑' : '↓') + Math.abs(eth).toFixed(2) + '%';
+                    document.getElementById('eth-change').className = eth >= 0 ? 'positive' : 'negative';
+                }
+            } catch(e) {
+                document.getElementById('btc-price').textContent = '加载失败';
+                document.getElementById('eth-price').textContent = '加载失败';
+            }
             
-            document.getElementById('eth-price').textContent = '\$' + data.ethereum.usd.toLocaleString();
-            let eth = data.ethereum.usd_24h_change;
-            document.getElementById('eth-change').textContent = (eth>=0?'+':'') + eth.toFixed(2) + '%';
-            document.getElementById('eth-change').className = eth>=0?'positive':'negative';
-        } catch(e) {
-            document.getElementById('btc-price').textContent = 'Load failed';
+            // 尝试加载纳斯达克（可能需要代理）
+            try {
+                let res = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/%5EIXIC');
+                let data = await res.json();
+                let result = data.chart?.result?.[0];
+                if (result) {
+                    let meta = result.meta;
+                    let price = meta.regularMarketPrice;
+                    let prev = meta.previousClose;
+                    let change = price - prev;
+                    let changePct = (change / prev) * 100;
+                    document.getElementById('nasdaq-price').textContent = price.toLocaleString();
+                    document.getElementById('nasdaq-change').textContent = (change >= 0 ? '↑' : '↓') + Math.abs(change).toFixed(2) + ' (' + changePct.toFixed(2) + '%)';
+                    document.getElementById('nasdaq-change').className = change >= 0 ? 'positive' : 'negative';
+                }
+            } catch(e) {
+                document.getElementById('nasdaq-price').textContent = '加载中...';
+            }
         }
-    }
-    loadPrices();
+        
+        loadPrices();
+        
+        // 监听系统颜色模式变化
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+            // CSS会自动处理，这里可以留空
+        });
     </script>
 </body>
 </html>
