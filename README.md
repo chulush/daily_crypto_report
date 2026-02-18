@@ -1,1 +1,11 @@
-IyDmipXotYTmiqXlkYog8J+agAoK5q+P5pel6Ieq5Yqo5pu05paw55qE5Yqg5a+G6LSn5biB5ZKM576O6IKh5YiG5p6Q5oql5ZGK44CCCgojIyDmnIDmlrDmiqXlkYoKCi0gWzIwMjYtMDItMThdKC4vcmVwb3J0cy9yZXBvcnQtMjAyNi0wMi0xOC5tZCkKCi0tLQoKKuacrOaKpeWRiueUseiHquWKqOWMluezu+e7n+avj+WkqeaXqeS4ijjngrnmm7TmlrAqCg==
+# 投资报告 🚀
+
+每日自动更新的加密货币和美股分析报告。
+
+## 最新报告
+
+- [2026-02-18](./reports/report-2026-02-18.md)
+
+---
+
+*本报告由自动化系统每天早上8点更新*
